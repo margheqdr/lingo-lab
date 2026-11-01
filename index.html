@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lingo Lab</title>
+<meta name="apple-mobile-web-app-title" content="Lingo Lab">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#6d4aff">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<script>
+  // Il link dell'app web (Apps Script → Esegui il deployment → URL dell'app web)
+  var APP_URL = "https://script.google.com/a/macros/sraffa.edu.it/s/AKfycbzuz312hMPmxRwXtoI4xDVEcW6GN45KtTFiDeukgmkQlv00m2j-QEPTKDK4tHutTMvZmw/exec";
+
+  // Il codice personale (?u=…) arriva dal link dello studente: lo teniamo per le aperture successive
+  var params = new URLSearchParams(location.search), code = params.get("u"), store = null;
+  try { store = window.localStorage; } catch (e) {}
+  try { if (code) store.setItem("lingolab-u", code); else code = store && store.getItem("lingolab-u"); } catch (e) {}
+  var target = APP_URL + (code ? "?u=" + encodeURIComponent(code) : "");
+  var fromHome = navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
+  // aperta dall'icona della Home: si va subito all'app
+  if (fromHome) location.replace(target);
+</script>
+<style>
+  :root{--bg:#6d4aff;--ink:#ffffff;--soft:#e7e0ff;--card:#ffffff;--card-ink:#221b3a;--muted:#6a6385;--pink:#ff5c8a;--gold:#ffc83d}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Fredoka,system-ui,sans-serif;display:flex;justify-content:center;padding:max(24px,env(safe-area-inset-top)) 16px 32px}
+  main{width:100%;max-width:420px;text-align:center}
+  .icon{width:112px;height:112px;border-radius:26px;box-shadow:0 10px 30px rgba(0,0,0,.25);margin-top:12px}
+  h1{font-size:34px;font-weight:700;margin:16px 0 4px;line-height:1.1}
+  h1 span{color:var(--pink)}
+  .school{color:var(--gold);letter-spacing:.2em;font-weight:700;font-size:14px}
+  p.lead{color:var(--soft);font-size:18px;margin:10px 0 22px}
+  .card{background:var(--card);color:var(--card-ink);border-radius:20px;padding:18px 18px 8px;text-align:left;margin-bottom:16px}
+  .card h2{font-size:19px;margin:0 0 10px}
+  .card ol{margin:0;padding-left:22px;font-size:17px;line-height:1.5}
+  .card li{margin-bottom:10px}
+  .card .note{color:var(--muted);font-size:15px;margin:0 0 10px}
+  .go{display:block;background:var(--pink);color:#fff;text-decoration:none;font-weight:700;font-size:20px;padding:16px;border-radius:16px;box-shadow:0 5px 0 #d83a68;margin-top:8px}
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="icon-512.png" alt="Lingo Lab icon">
+  <div class="school" style="margin-top:14px">SRAFFA</div>
+  <h1>Lingo <span>Lab</span></h1>
+  <p class="lead">Your English words for school, one level at a time.</p>
+
+  <div class="card" id="ios">
+    <h2>iPhone: put it on your Home Screen</h2>
+    <ol>
+      <li>Open this page in <b>Safari</b>.</li>
+      <li>Tap the <b>Share</b> button (the square with the arrow).</li>
+      <li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li>
+      <li>Open <b>Lingo Lab</b> from your Home Screen.</li>
+    </ol>
+  </div>
+  <div class="card" id="android">
+    <h2>Android: put it on your Home screen</h2>
+    <ol>
+      <li>Open this page in <b>Chrome</b>.</li>
+      <li>Tap the <b>⋮</b> menu.</li>
+      <li>Tap <b>Add to Home screen</b> (or <b>Install app</b>).</li>
+      <li>Open <b>Lingo Lab</b> from your Home screen.</li>
+    </ol>
+  </div>
+
+  <a class="go" id="go" href="#">Start now</a>
+</main>
+<script>
+  document.getElementById("go").href = target;
+  // mostra solo le istruzioni del telefono che si sta usando
+  var ua = navigator.userAgent, isIOS = /iPhone|iPad|iPod/.test(ua) || (ua.indexOf("Mac") > -1 && "ontouchend" in document);
+  if (isIOS) document.getElementById("android").remove();
+  else if (/Android/.test(ua)) document.getElementById("ios").remove();
+</script>
+</body>
+</html>
